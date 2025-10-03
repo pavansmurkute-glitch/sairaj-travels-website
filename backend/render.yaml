@@ -1,9 +1,18 @@
 services:
+  # -------------------------
+  # Backend Service (Spring Boot)
+  # -------------------------
   - type: web
     name: sairaj-travels-backend
     env: java
+    region: singapore
+    plan: free
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
+    branch: main
+    rootDir: backend
     buildCommand: ./mvnw clean package -DskipTests
     startCommand: java -jar target/sairaj-travels-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
@@ -21,5 +30,20 @@ services:
         value: false
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
         value: org.hibernate.dialect.SQLServerDialect
-    healthCheckPath: /actuator/health
-    plan: starter
+
+  # -------------------------
+  # Frontend Service (React + Vite)
+  # -------------------------
+  - type: web
+    name: sairaj-travels-frontend
+    env: static
+    region: singapore
+    plan: free
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
+    branch: main
+    rootDir: backend/sairaj-travels-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://sairaj-travels-backend.onrender.com
