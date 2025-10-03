@@ -4,13 +4,15 @@ services:
   # -------------------------
   - type: web
     name: sairaj-travels-backend
-    env: docker
+    env: java
     region: singapore
     plan: free
     repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
     branch: main
-    dockerfilePath: backend/Dockerfile
-    dockerContext: backend
+    rootDir: backend
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/sairaj-travels-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
