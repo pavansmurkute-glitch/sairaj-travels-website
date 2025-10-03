@@ -1,14 +1,18 @@
 services:
+  # -------------------------
+  # Backend Service (Spring Boot)
+  # -------------------------
   - type: web
     name: sairaj-travels-backend
-    env: docker
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    env: java
+    region: singapore
     plan: free
-    region: oregon
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
     branch: main
-    buildCommand: ""
-    startCommand: ""
+    rootDir: backend
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/sairaj-travels-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
@@ -18,15 +22,28 @@ services:
         value: sairajadmin@sairaj-sqlserver
       - key: SPRING_DATASOURCE_PASSWORD
         value: Deep@6044
-      - key: SPRING_MAIL_HOST
-        value: smtp.gmail.com
-      - key: SPRING_MAIL_PORT
-        value: 587
-      - key: SPRING_MAIL_USERNAME
-        value: PavansMurkute@gmail.com
-      - key: SPRING_MAIL_PASSWORD
-        value: ykym zvwc gzxf bviw
-      - key: APP_FRONTEND_URL
-        value: https://your-frontend-app.onrender.com
-      - key: APP_UPLOAD_DIR
-        value: /opt/render/project/src/main/resources/static/images
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: false
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+        value: org.hibernate.dialect.SQLServerDialect
+
+  # -------------------------
+  # Frontend Service (React + Vite)
+  # -------------------------
+  - type: web
+    name: sairaj-travels-frontend
+    env: static
+    region: singapore
+    plan: free
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
+    branch: main
+    rootDir: backend/sairaj-travels-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://sairaj-travels-backend.onrender.com

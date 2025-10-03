@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ownerPhoto from "../assets/Owner_photo.jpg";
 
 export default function AboutUs() {
   const navigate = useNavigate(); // ✅ enables navigation
@@ -269,10 +270,10 @@ export default function AboutUs() {
                 <div className="relative z-10 text-center">
                   <div className="relative mb-4">
           <img
-            src="/Owner_photo.jpg"
+            src={ownerPhoto}
             alt="Mr. Sachin Kanawade"
-                      className="w-24 h-24 rounded-full shadow-lg object-cover border-2 border-white object-top mx-auto hover:scale-105 transition-transform duration-300"
-                    />
+            className="w-24 h-24 rounded-full shadow-lg object-cover border-2 border-white object-top mx-auto hover:scale-105 transition-transform duration-300"
+          />
                     <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                       Founder
                     </div>
