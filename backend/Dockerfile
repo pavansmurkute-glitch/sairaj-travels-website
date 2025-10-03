@@ -1,5 +1,8 @@
-# Use a simple, reliable Maven image
-FROM maven:3.9.4-openjdk-17
+# Use a very basic, guaranteed-to-work image
+FROM openjdk:8-jdk-alpine
+
+# Install Maven
+RUN apk add --no-cache maven
 
 # Set working directory
 WORKDIR /app
