@@ -2,7 +2,7 @@ import axios from "axios";
 import overlayService from "./overlayService";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE || "http://localhost:8080/api",
+  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : "http://localhost:8080/api",
   timeout: 10000, // 10 second timeout
   headers: {
     'Content-Type': 'application/json',
