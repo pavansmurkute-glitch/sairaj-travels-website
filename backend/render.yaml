@@ -25,7 +25,7 @@ services:
       - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
         value: com.microsoft.sqlserver.jdbc.SQLServerDriver
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-        value: update
+        value: none
       - key: SPRING_JPA_SHOW_SQL
         value: false
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
