@@ -38,6 +38,18 @@ services:
         value: 30000
       - key: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
         value: 5
+      - key: SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE
+        value: 1
+      - key: SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT
+        value: 300000
+      - key: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+        value: 1200000
+      - key: SPRING_DATASOURCE_HIKARI_LEAK_DETECTION_THRESHOLD
+        value: 60000
+      - key: SPRING_JPA_DATABASE_PLATFORM
+        value: org.hibernate.dialect.SQLServerDialect
+      - key: SERVER_PORT
+        value: 10000
 
   # -------------------------
   # Frontend Service (React + Vite)
