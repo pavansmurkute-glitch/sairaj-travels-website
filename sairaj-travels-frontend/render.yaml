@@ -4,7 +4,6 @@ services:
     env: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
-    rootDir: sairaj-travels-frontend
     envVars:
       - key: VITE_API_URL
         value: https://sairaj-travels-backend.onrender.com
