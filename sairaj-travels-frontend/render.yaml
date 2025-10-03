@@ -2,7 +2,7 @@ services:
   - type: web
     name: sairaj-travels-frontend
     env: static
-    buildCommand: npm install && npm run build && cp -r public/* dist/
+    buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
