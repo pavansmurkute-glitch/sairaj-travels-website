@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: sairaj-travels-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:sqlserver://sairaj-sqlserver.database.windows.net:1433;database=SairajTravelsDB;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+      - key: SPRING_DATASOURCE_USERNAME
+        value: sairajadmin@sairaj-sqlserver
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Deep@6044
+      - key: SPRING_MAIL_HOST
+        value: smtp.gmail.com
+      - key: SPRING_MAIL_PORT
+        value: 587
+      - key: SPRING_MAIL_USERNAME
+        value: PavansMurkute@gmail.com
+      - key: SPRING_MAIL_PASSWORD
+        value: ykym zvwc gzxf bviw
+      - key: APP_FRONTEND_URL
+        value: https://your-frontend-app.onrender.com
+      - key: APP_UPLOAD_DIR
+        value: /opt/render/project/src/main/resources/static/images
