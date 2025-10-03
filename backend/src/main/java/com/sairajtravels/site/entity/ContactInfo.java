@@ -63,4 +63,10 @@ public class ContactInfo {
 
     @Column(name = "social_linkedin")
     private String socialLinkedin;
+
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private java.time.LocalDateTime updatedAt;
 }
