@@ -1,25 +1,20 @@
-# Use OpenJDK 21 as base image
-FROM openjdk:21-jdk-slim
+# Use Maven with OpenJDK 21 as base image
+FROM maven:3.9.4-openjdk-21-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for better caching
-COPY .mvn .mvn
-COPY mvnw .
+# Copy pom.xml first for better caching
 COPY pom.xml .
 
-# Make mvnw executable
-RUN chmod +x ./mvnw
-
 # Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:resolve -B
+RUN mvn dependency:resolve -B
 
 # Copy source code
 COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests -X
+RUN mvn clean package -DskipTests
 
 # Expose port
 EXPOSE 8080
