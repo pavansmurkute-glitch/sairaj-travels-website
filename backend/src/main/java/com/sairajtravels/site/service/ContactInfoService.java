@@ -20,6 +20,11 @@ public class ContactInfoService {
         return repository.findById(1L); // standard: fetch the first row
     }
 
+    // Debug method to check record count
+    public long getContactInfoCount() {
+        return repository.count();
+    }
+
     // Create contact info
     public ContactInfo createContactInfo(ContactInfo info) {
         return repository.save(info);
