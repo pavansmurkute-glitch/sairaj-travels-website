@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-// Use public folder approach - most reliable for static assets
-// Redeployment: Ensuring all static images load correctly
+// Use ES6 imports approach - most reliable for static assets
+// Final deployment: All images now use ES6 imports for guaranteed loading
 
 // Context & Components
 import { useOverlay } from "./context/OverlayContext";
