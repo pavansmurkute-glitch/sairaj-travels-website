@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import selectCarImage from "./assets/images/select_car.jpg";
 import driverSkillImage from "./assets/images/driver_skill.jpg";
 import ourServicesImage from "./assets/images/our_services.jpg";
+import busImage from "./assets/bus.png";
 
 // Context & Components
 import { useOverlay } from "./context/OverlayContext";
@@ -229,7 +230,7 @@ useEffect(() => {
             {/* Logo + Brand */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="flex items-center bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full p-1.5 sm:p-2 shadow-lg">
-                <img src="/bus.png" alt="Sairaj Travels Logo" className="h-6 w-6 sm:h-8 sm:w-8" />
+                <img src={busImage} alt="Sairaj Travels Logo" className="h-6 w-6 sm:h-8 sm:w-8" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-lg sm:text-2xl font-bold text-gray-900">SAIRAJ TRAVELS</h1>
@@ -837,7 +838,7 @@ useEffect(() => {
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="flex items-center bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full p-2 shadow-lg">
-                  <img src="/bus.png" alt="Sairaj Travels Logo" className="h-6 w-6" />
+                  <img src={busImage} alt="Sairaj Travels Logo" className="h-6 w-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">SAIRAJ TRAVELS</h3>
