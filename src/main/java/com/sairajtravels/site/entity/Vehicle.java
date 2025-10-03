@@ -6,34 +6,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Vehicles")
+@Table(name = "vehicles")
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "VehicleId")
+    @Column(name = "vehicle_id")
     private Integer vehicleId;
 
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "Type", length = 50)
+    @Column(name = "type", length = 50)
     private String type;
 
-    @Column(name = "Capacity")
+    @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "IsAC")
+    @Column(name = "is_ac")
     private Boolean isAC;
 
-    @Column(name = "Description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
     // ✅ New column for Fleet main image
-    @Column(name = "MainImageUrl", length = 255)
+    @Column(name = "main_image_url", length = 500)
     private String mainImageUrl;
 
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     // ✅ One vehicle can have many images
