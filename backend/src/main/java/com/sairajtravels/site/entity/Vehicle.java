@@ -120,6 +120,13 @@ public class Vehicle {
     }
 
     public String getMainImageUrl() {
+        if (mainImageUrl == null || mainImageUrl.isEmpty()) {
+            return null;
+        }
+        // Convert relative URLs to absolute URLs
+        if (mainImageUrl.startsWith("/")) {
+            return "https://sairaj-travels-backend.onrender.com" + mainImageUrl;
+        }
         return mainImageUrl;
     }
 
