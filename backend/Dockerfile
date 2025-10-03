@@ -1,4 +1,4 @@
-# Multi-stage build for better reliability
+# Multi-stage build for better reliability - Updated for stability
 FROM maven:3.9.4-openjdk-17 AS build
 
 # Set working directory
