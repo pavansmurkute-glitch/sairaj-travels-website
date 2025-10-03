@@ -4,30 +4,33 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "VehicleCharges")
+@Table(name = "vehicle_charges")
 public class VehicleCharges {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ChargeId")
+    @Column(name = "id")
     private Integer chargeId;
 
     // Foreign Key reference to Vehicle
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VehicleId")
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @Column(name = "DriverAllowance", precision = 10, scale = 2)
-    private BigDecimal driverAllowance;
+    @Column(name = "charge_type", length = 50, nullable = false)
+    private String chargeType;
 
-    @Column(name = "NightCharge", precision = 10, scale = 2)
-    private BigDecimal nightCharge;
+    @Column(name = "charge_amount", precision = 10, scale = 2, nullable = false)
+    private BigDecimal chargeAmount;
 
-    @Column(name = "FuelIncluded")
-    private Boolean fuelIncluded;
+    @Column(name = "is_mandatory")
+    private Boolean isMandatory;
 
-    @Column(name = "TollIncluded")
-    private Boolean tollIncluded;
+    @Column(name = "description", length = 200)
+    private String description;
+
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
 
     @Column(name = "ParkingIncluded")
     private Boolean parkingIncluded;

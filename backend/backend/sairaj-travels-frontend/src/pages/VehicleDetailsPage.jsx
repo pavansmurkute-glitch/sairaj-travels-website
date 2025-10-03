@@ -403,7 +403,7 @@ export default function VehicleDetailsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
-              <img src="/images/sairaj_logo.png" alt="Sairaj Travels" className="h-12 w-auto" />
+              <img src="/sairaj_logo.png" alt="Sairaj Travels" className="h-12 w-auto" />
             </div>
             <p className="text-gray-400 text-sm mb-4">
               © 2025 Sairaj Travels. All rights reserved.

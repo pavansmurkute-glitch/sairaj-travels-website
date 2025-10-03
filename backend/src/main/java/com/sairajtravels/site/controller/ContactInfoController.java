@@ -24,7 +24,22 @@ public class ContactInfoController {
                     .orElseThrow(() -> new RuntimeException("Contact Info not found"));
             return ResponseEntity.ok(contactInfo);
         } catch (Exception e) {
+            System.err.println("❌ ContactInfoController Error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(404).build();
+        }
+    }
+
+    // ✅ Debug endpoint to check database connection
+    @GetMapping("/debug")
+    public ResponseEntity<String> debugContactInfo() {
+        try {
+            long count = service.getContactInfoCount();
+            return ResponseEntity.ok("Contact info records count: " + count);
+        } catch (Exception e) {
+            System.err.println("❌ ContactInfoController Debug Error: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
 

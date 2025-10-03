@@ -3,21 +3,33 @@ package com.sairajtravels.site.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "VehicleImages")
+@Table(name = "vehicle_images")
 public class VehicleImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ImageId")
+    @Column(name = "id")
     private Integer imageId;
 
     // Foreign Key reference to Vehicle
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VehicleId")
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @Column(name = "ImageUrl", nullable = false, length = 255)
+    @Column(name = "image_url", nullable = false, length = 500)
     private String imageUrl;
+
+    @Column(name = "image_type", length = 50)
+    private String imageType;
+
+    @Column(name = "is_primary")
+    private Boolean isPrimary;
+
+    @Column(name = "sort_order")
+    private Integer sortOrder;
+
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
 
     // ✅ Constructors
     public VehicleImage() {}
@@ -50,5 +62,37 @@ public class VehicleImage {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public Boolean getIsPrimary() {
+        return isPrimary;
+    }
+
+    public void setIsPrimary(Boolean isPrimary) {
+        this.isPrimary = isPrimary;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public java.time.LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.time.LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
