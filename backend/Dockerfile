@@ -13,13 +13,13 @@ COPY pom.xml .
 RUN chmod +x ./mvnw
 
 # Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
+RUN ./mvnw dependency:resolve -B
 
 # Copy source code
 COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw clean package -DskipTests -X
 
 # Expose port
 EXPOSE 8080
