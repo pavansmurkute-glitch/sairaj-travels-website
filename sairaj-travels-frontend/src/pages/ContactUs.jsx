@@ -16,6 +16,8 @@ import { useOverlay } from "../context/OverlayContext"; // ✅ import overlay
 export default function ContactUs() {
   const [contact, setContact] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [liveError, setLiveError] = useState(null);
+  const [debugInfo, setDebugInfo] = useState({});
 
     const { processing } = useOverlay();
 
@@ -32,18 +34,48 @@ export default function ContactUs() {
   // ✅ Fetch data from backend (contact info)
    useEffect(() => {
      const fetchData = async () => {
+       const startTime = Date.now();
+       const timestamp = new Date().toISOString();
+       
        try {
-         console.log('🔍 ContactUs: Fetching contact info...');
+         console.log('🔍 ContactUs: Fetching contact info...', timestamp);
          console.log('🌐 API Base URL:', import.meta.env.VITE_API_URL);
          console.log('📡 Full URL will be:', `${import.meta.env.VITE_API_URL}/api/contact`);
          
+         // Update debug info
+         setDebugInfo({
+           timestamp,
+           apiBaseUrl: import.meta.env.VITE_API_URL,
+           fullUrl: `${import.meta.env.VITE_API_URL}/api/contact`,
+           status: 'fetching'
+         });
+         
          const res = await apiMethods.get("/contact");
          const data = res.data;
+         const endTime = Date.now();
+         const duration = endTime - startTime;
+         
          console.log('✅ ContactUs: Contact info received:', data);
+         console.log('⏱️ Response time:', duration + 'ms');
+         
          setContact(data);
+         setLiveError(null);
+         setDebugInfo(prev => ({
+           ...prev,
+           status: 'success',
+           responseTime: duration + 'ms',
+           dataReceived: !!data,
+           dataKeys: data ? Object.keys(data) : []
+         }));
+         
        } catch (err) {
+         const endTime = Date.now();
+         const duration = endTime - startTime;
+         
          console.error("❌ ContactUs: Error fetching contact info:", err);
          console.error('📊 ContactUs: Error Details:', {
+           timestamp,
+           duration: duration + 'ms',
            message: err.message,
            status: err.response?.status,
            statusText: err.response?.statusText,
@@ -53,8 +85,30 @@ export default function ContactUs() {
              baseURL: err.config?.baseURL,
              method: err.config?.method
            },
-           request: err.request ? 'Network request made but no response' : 'No network request made'
+           request: err.request ? 'Network request made but no response' : 'No network request made',
+           stack: err.stack
          });
+         
+         // Set live error for display
+         setLiveError({
+           timestamp,
+           duration: duration + 'ms',
+           message: err.message,
+           status: err.response?.status,
+           statusText: err.response?.statusText,
+           url: err.config?.url,
+           baseURL: err.config?.baseURL,
+           requestMade: !!err.request
+         });
+         
+         setDebugInfo(prev => ({
+           ...prev,
+           status: 'error',
+           responseTime: duration + 'ms',
+           errorMessage: err.message,
+           httpStatus: err.response?.status
+         }));
+         
        } finally {
          setLoading(false);
        }
@@ -108,13 +162,35 @@ export default function ContactUs() {
             <p className="text-xs">Failed to load contact information. Please try again later.</p>
           </div>
           
+          {/* Live Error Information */}
+          {liveError && (
+            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg text-left mb-4">
+              <p className="font-semibold text-sm mb-2">🔴 Live Error Details:</p>
+              <div className="text-xs space-y-1">
+                <p><strong>Time:</strong> {liveError.timestamp}</p>
+                <p><strong>Duration:</strong> {liveError.duration}</p>
+                <p><strong>Error:</strong> {liveError.message}</p>
+                <p><strong>HTTP Status:</strong> {liveError.status} {liveError.statusText}</p>
+                <p><strong>URL:</strong> {liveError.url}</p>
+                <p><strong>Base URL:</strong> {liveError.baseURL}</p>
+                <p><strong>Request Made:</strong> {liveError.requestMade ? 'Yes' : 'No'}</p>
+              </div>
+            </div>
+          )}
+
           {/* Debug Information */}
           <div className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-left">
-            <p className="font-semibold text-sm mb-2">Debug Information:</p>
+            <p className="font-semibold text-sm mb-2">🔍 Debug Information:</p>
             <div className="text-xs space-y-1">
-              <p><strong>API Base URL:</strong> {import.meta.env.VITE_API_URL || 'Not set'}</p>
-              <p><strong>Expected URL:</strong> {import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/contact` : 'Not available'}</p>
-              <p><strong>Loading State:</strong> {loading ? 'Loading...' : 'Failed to load'}</p>
+              <p><strong>Timestamp:</strong> {debugInfo.timestamp || 'Not available'}</p>
+              <p><strong>API Base URL:</strong> {debugInfo.apiBaseUrl || import.meta.env.VITE_API_URL || 'Not set'}</p>
+              <p><strong>Full URL:</strong> {debugInfo.fullUrl || 'Not available'}</p>
+              <p><strong>Status:</strong> {debugInfo.status || 'Unknown'}</p>
+              <p><strong>Response Time:</strong> {debugInfo.responseTime || 'N/A'}</p>
+              <p><strong>Loading State:</strong> {loading ? 'Loading...' : 'Completed'}</p>
+              {debugInfo.dataKeys && debugInfo.dataKeys.length > 0 && (
+                <p><strong>Data Keys:</strong> {debugInfo.dataKeys.join(', ')}</p>
+              )}
               <p className="mt-2 text-gray-600">Check browser console (F12) for detailed error logs.</p>
             </div>
           </div>
