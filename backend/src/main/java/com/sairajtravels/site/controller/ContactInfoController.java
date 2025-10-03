@@ -21,11 +21,17 @@ public class ContactInfoController {
     // ✅ Fetch contact info
     @GetMapping
     public ResponseEntity<ContactInfo> getContactInfo() {
+        System.out.println("🔍 ContactInfoController: getContactInfo() called");
         try {
+            System.out.println("🔍 ContactInfoController: Attempting to get contact info from service...");
             Optional<ContactInfo> contactInfoOpt = service.getContactInfo();
+            System.out.println("🔍 ContactInfoController: Service call completed. Result present: " + contactInfoOpt.isPresent());
+            
             if (contactInfoOpt.isPresent()) {
+                System.out.println("✅ ContactInfoController: Returning contact info from database");
                 return ResponseEntity.ok(contactInfoOpt.get());
             } else {
+                System.out.println("⚠️ ContactInfoController: No contact info in database, returning default");
                 // Return default contact info if none exists in database
                 ContactInfo defaultContact = new ContactInfo();
                 defaultContact.setId(1L);
@@ -44,11 +50,16 @@ public class ContactInfoController {
                 defaultContact.setSocialFacebook("https://facebook.com/sairajtravels");
                 defaultContact.setSocialInstagram("https://instagram.com/sairajtravels");
                 defaultContact.setSocialLinkedin("https://linkedin.com/company/sairajtravels");
+                System.out.println("✅ ContactInfoController: Default contact info created and returning");
                 return ResponseEntity.ok(defaultContact);
             }
         } catch (Exception e) {
             System.err.println("❌ ContactInfoController Error: " + e.getMessage());
+            System.err.println("❌ ContactInfoController Error Class: " + e.getClass().getName());
+            System.err.println("❌ ContactInfoController Error Stack Trace:");
             e.printStackTrace();
+            
+            // Return error details in response for debugging
             return ResponseEntity.status(500).body(null);
         }
     }
@@ -56,7 +67,15 @@ public class ContactInfoController {
     // ✅ Simple test endpoint
     @GetMapping("/test")
     public ResponseEntity<String> testContactInfo() {
+        System.out.println("🔍 ContactInfoController: /test endpoint called");
         return ResponseEntity.ok("Contact API is working!");
+    }
+
+    // ✅ Basic health check without database
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        System.out.println("🔍 ContactInfoController: /ping endpoint called");
+        return ResponseEntity.ok("PONG - Contact controller is alive!");
     }
 
     // ✅ Debug endpoint to check database connection
