@@ -30,6 +30,12 @@ public class ContactInfoController {
         }
     }
 
+    // ✅ Simple test endpoint
+    @GetMapping("/test")
+    public ResponseEntity<String> testContactInfo() {
+        return ResponseEntity.ok("Contact API is working!");
+    }
+
     // ✅ Debug endpoint to check database connection
     @GetMapping("/debug")
     public ResponseEntity<String> debugContactInfo() {
