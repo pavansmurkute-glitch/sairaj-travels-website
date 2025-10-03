@@ -1,5 +1,5 @@
 # Use a very basic, guaranteed-to-work image
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-jdk-alpine
 
 # Install Maven
 RUN apk add --no-cache maven
