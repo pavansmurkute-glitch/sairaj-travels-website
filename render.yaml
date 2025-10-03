@@ -1,0 +1,47 @@
+services:
+  # -------------------------
+  # Backend Service (Spring Boot)
+  # -------------------------
+  - type: web
+    name: sairaj-travels-backend
+    env: docker
+    region: singapore
+    plan: free
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
+    branch: main
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:sqlserver://sairaj-sqlserver.database.windows.net:1433;database=SairajTravelsDB;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+      - key: SPRING_DATASOURCE_USERNAME
+        value: sairajadmin@sairaj-sqlserver
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Deep@6044
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: false
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+        value: org.hibernate.dialect.SQLServerDialect
+
+  # -------------------------
+  # Frontend Service (React + Vite)
+  # -------------------------
+  - type: web
+    name: sairaj-travels-frontend
+    env: static
+    region: singapore
+    plan: free
+    repo: https://github.com/pavansmurkute-glitch/sairaj-travels-website
+    branch: main
+    rootDir: backend/sairaj-travels-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://sairaj-travels-backend.onrender.com
