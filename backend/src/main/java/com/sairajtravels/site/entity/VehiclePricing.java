@@ -50,6 +50,28 @@ public class VehiclePricing {
     @Column(name = "updated_at")
     private java.time.LocalDateTime updatedAt;
 
+    // Additional fields for the service layer
+    @Column(name = "rate_type", length = 50)
+    private String rateType;
+
+    @Column(name = "min_km_per_day")
+    private Integer minKmPerDay;
+
+    @Column(name = "package_hours")
+    private Integer packageHours;
+
+    @Column(name = "package_km")
+    private Integer packageKm;
+
+    @Column(name = "package_rate", precision = 10, scale = 2)
+    private BigDecimal packageRate;
+
+    @Column(name = "extra_km_rate", precision = 10, scale = 2)
+    private BigDecimal extraKmRate;
+
+    @Column(name = "extra_hour_rate", precision = 10, scale = 2)
+    private BigDecimal extraHourRate;
+
     // ✅ Constructors
     public VehiclePricing() {}
 
@@ -175,11 +197,11 @@ public class VehiclePricing {
 
     // Additional methods that are referenced in the code
     public String getRateType() {
-        return "PER_KM"; // Default rate type
+        return rateType != null ? rateType : "PER_KM"; // Return actual field or default
     }
 
     public void setRateType(String rateType) {
-        // Implementation for rate type if needed
+        this.rateType = rateType;
     }
 
     public BigDecimal getRatePerKm() {
@@ -191,50 +213,50 @@ public class VehiclePricing {
     }
 
     public Integer getMinKmPerDay() {
-        return 200; // Default minimum km per day
+        return minKmPerDay;
     }
 
     public void setMinKmPerDay(Integer minKmPerDay) {
-        // Implementation for minimum km per day if needed
+        this.minKmPerDay = minKmPerDay;
     }
 
     public Integer getPackageHours() {
-        return 8; // Default package hours
+        return packageHours;
     }
 
     public void setPackageHours(Integer packageHours) {
-        // Implementation for package hours if needed
+        this.packageHours = packageHours;
     }
 
     public Integer getPackageKm() {
-        return 200; // Default package km
+        return packageKm;
     }
 
     public void setPackageKm(Integer packageKm) {
-        // Implementation for package km if needed
+        this.packageKm = packageKm;
     }
 
     public BigDecimal getPackageRate() {
-        return basePrice;
+        return packageRate;
     }
 
     public void setPackageRate(BigDecimal packageRate) {
-        this.basePrice = packageRate;
+        this.packageRate = packageRate;
     }
 
     public BigDecimal getExtraKmRate() {
-        return perKmRate;
+        return extraKmRate;
     }
 
     public void setExtraKmRate(BigDecimal extraKmRate) {
-        this.perKmRate = extraKmRate;
+        this.extraKmRate = extraKmRate;
     }
 
     public BigDecimal getExtraHourRate() {
-        return perHourRate;
+        return extraHourRate;
     }
 
     public void setExtraHourRate(BigDecimal extraHourRate) {
-        this.perHourRate = extraHourRate;
+        this.extraHourRate = extraHourRate;
     }
 }
