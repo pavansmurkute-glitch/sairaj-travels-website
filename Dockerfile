@@ -1,31 +1,23 @@
-# syntax=docker/dockerfile:1
+# ---- Build Stage ----
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# ---- Build stage ----
-FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /app
 
-# Copy Maven wrapper & pre-fetch deps (faster builds)
-COPY mvnw ./
-COPY .mvn .mvn
+# Copy Maven files and download dependencies first
 COPY pom.xml .
-RUN ./mvnw -q -DskipTests dependency:go-offline
+RUN mvn dependency:go-offline -B
 
-# Copy source and build
+# Copy source and build the JAR
 COPY src ./src
-RUN ./mvnw -q -DskipTests package
+RUN mvn clean package -DskipTests
 
-# ---- Run stage ----
-FROM eclipse-temurin:17-jre-jammy
+# ---- Run Stage ----
+FROM eclipse-temurin:17-jdk
+
 WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
-# non-root user for safety
-RUN useradd -ms /bin/bash appuser
-USER appuser
-
-# Copy the built jar (wildcard handles your SNAPSHOT name)
-COPY --from=build /app/target/*-SNAPSHOT.jar app.jar
-
-# Render injects $PORT; we pass it to Spring Boot
 EXPOSE 8080
-ENV JAVA_OPTS=""
-CMD ["bash","-lc","java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
+
+# Render sets $PORT automatically, so we pass it to Spring Boot
+ENTRYPOINT ["sh", "-c", "java -jar -Dserver.port=$PORT app.jar"]
