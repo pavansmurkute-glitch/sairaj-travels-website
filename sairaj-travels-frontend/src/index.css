@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== CUSTOM COMPONENTS ===== */
+@layer components {
+  /* Professional Button Styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-6 py-3 rounded-lg font-semibold shadow-lg hover:from-yellow-500 hover:to-yellow-600 transform hover:scale-105 transition-all duration-300;
+  }
+  
+  .btn-success {
+    @apply bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:from-green-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300;
+  }
+  
+  /* Card Styles */
+  .card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply transform hover:scale-105 hover:shadow-2xl transition-all duration-300;
+  }
+  
+  /* Input Styles */
+  .input-field {
+    @apply w-full border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-700 placeholder-gray-500;
+  }
+  
+  /* Loading Spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-gray-300 border-t-blue-600;
+  }
+}
+
+/* ===== ROAD ANIMATIONS ===== */
+.road-lines {
+  width: 200%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0 40px,
+    #facc15 40px 70px,
+    transparent 70px 100px
+  );
+  background-size: 100px 100%;
+}
+
+@keyframes roadMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100px);
+  }
+}
+
+.animate-roadMove {
+  animation: roadMove 2s linear infinite;
+}
+
+.animate-roadMove.fast {
+  animation-duration: 0.6s;
+}
+
+/* Bus movement with tilt + bounce */
+@keyframes busTiltBounce {
+  0% {
+    left: 50%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  25% {
+    left: calc(100% - 50px);
+    transform: translate(0, -2px) rotate(6deg);
+  }
+  50% {
+    left: 0;
+    transform: translate(0, 2px) rotate(-6deg);
+  }
+  75% {
+    left: calc(100% - 50px);
+    transform: translate(0, -2px) rotate(6deg);
+  }
+  100% {
+    left: 50%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+.animate-busTiltBounce {
+  animation: busTiltBounce 5s ease-in-out infinite;
+}
+
+/* Road vibration (subtle shake) */
+@keyframes roadShake {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-1px);
+  }
+  50% {
+    transform: translateY(1px);
+  }
+  75% {
+    transform: translateY(-0.5px);
+  }
+}
+
+.animate-roadShake {
+  animation: roadShake 0.3s infinite linear;
+}
+
+/* ===== ENHANCED ANIMATIONS ===== */
+
+/* Fade In Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.6s ease-out;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 0.6s ease-out;
+}
+
+/* Scale Animations */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-scaleOut {
+  animation: scaleOut 0.3s ease-out;
+}
+
+/* Pulse Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Bounce Animations */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+/* ===== LOADING STATES ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideInFromBottom {
+  animation: slideInFromBottom 0.8s ease-out;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.hover-lift {
+  @apply transform transition-all duration-300 hover:scale-105 hover:shadow-xl;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25;
+}
+
+/* ===== RESPONSIVE UTILITIES ===== */
+@media (max-width: 640px) {
+  .mobile-padding {
+    @apply px-4 py-2;
+  }
+  
+  .mobile-text {
+    @apply text-sm;
+  }
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* ===== FOCUS STYLES ===== */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
+}
+
+.gradient-text-yellow {
+  @apply bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent;
+}

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: sairaj-travels-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://your-backend-app.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    plan: starter
