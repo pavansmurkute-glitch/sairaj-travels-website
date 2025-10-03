@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 // Use ES6 imports approach - most reliable for static assets
 // Final deployment: All images now use ES6 imports for guaranteed loading
+// DEPLOYMENT TRIGGER: Force new build with image fixes
 
 // Context & Components
 import { useOverlay } from "./context/OverlayContext";
