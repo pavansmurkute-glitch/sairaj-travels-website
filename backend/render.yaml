@@ -30,6 +30,14 @@ services:
         value: false
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
         value: org.hibernate.dialect.SQLServerDialect
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_AUTO
+        value: none
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_TEMP_USE_JDBC_METADATA_DEFAULTS
+        value: false
+      - key: SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT
+        value: 30000
+      - key: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
+        value: 5
 
   # -------------------------
   # Frontend Service (React + Vite)
