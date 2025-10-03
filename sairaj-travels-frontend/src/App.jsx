@@ -5,9 +5,9 @@ import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom"
 import { motion } from "framer-motion";
 
 // Import images
-import selectCarImage from "../public/select_car.jpg";
-import driverSkillImage from "../public/driver_skill.jpg";
-import ourServicesImage from "../public/our_services.jpg";
+import selectCarImage from "./assets/images/select_car.jpg";
+import driverSkillImage from "./assets/images/driver_skill.jpg";
+import ourServicesImage from "./assets/images/our_services.jpg";
 
 // Context & Components
 import { useOverlay } from "./context/OverlayContext";

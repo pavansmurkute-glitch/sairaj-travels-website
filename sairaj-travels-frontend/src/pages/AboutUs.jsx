@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ownerPhoto from "../../public/Owner_photo.jpg";
+import ownerPhoto from "../assets/images/Owner_photo.jpg";
 
 export default function AboutUs() {
   const navigate = useNavigate(); // ✅ enables navigation
