@@ -5,6 +5,8 @@ import com.sairajtravels.site.service.ContactInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/contact")
 @CrossOrigin(origins = "*")
@@ -20,13 +22,34 @@ public class ContactInfoController {
     @GetMapping
     public ResponseEntity<ContactInfo> getContactInfo() {
         try {
-            ContactInfo contactInfo = service.getContactInfo()
-                    .orElseThrow(() -> new RuntimeException("Contact Info not found"));
-            return ResponseEntity.ok(contactInfo);
+            Optional<ContactInfo> contactInfoOpt = service.getContactInfo();
+            if (contactInfoOpt.isPresent()) {
+                return ResponseEntity.ok(contactInfoOpt.get());
+            } else {
+                // Return default contact info if none exists in database
+                ContactInfo defaultContact = new ContactInfo();
+                defaultContact.setId(1L);
+                defaultContact.setPhoneOffice("+91 98507 48273");
+                defaultContact.setPhoneMobile("+91 98507 48273");
+                defaultContact.setPhoneWhatsapp("+91 98507 48273");
+                defaultContact.setEmailPrimary("info@sairajtravels.com");
+                defaultContact.setEmailBookings("bookings@sairajtravels.com");
+                defaultContact.setEmailSupport("support@sairajtravels.com");
+                defaultContact.setAddressLine1("Sairaj Travels Office, Pune");
+                defaultContact.setAddressCity("Pune");
+                defaultContact.setAddressState("Maharashtra");
+                defaultContact.setAddressPincode("411001");
+                defaultContact.setBusinessHoursWeekdays("24/7 Available");
+                defaultContact.setBusinessHoursSunday("24/7 Available");
+                defaultContact.setSocialFacebook("https://facebook.com/sairajtravels");
+                defaultContact.setSocialInstagram("https://instagram.com/sairajtravels");
+                defaultContact.setSocialLinkedin("https://linkedin.com/company/sairajtravels");
+                return ResponseEntity.ok(defaultContact);
+            }
         } catch (Exception e) {
             System.err.println("❌ ContactInfoController Error: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(500).body(null);
         }
     }
 
