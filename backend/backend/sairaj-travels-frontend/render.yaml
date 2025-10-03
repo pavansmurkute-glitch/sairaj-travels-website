@@ -6,7 +6,7 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://your-backend-app.onrender.com
+        value: https://sairaj-travels-backend.onrender.com
     routes:
       - type: rewrite
         source: /*

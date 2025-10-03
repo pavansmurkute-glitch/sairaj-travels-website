@@ -35,6 +35,19 @@ public class VehicleCharges {
     @Column(name = "ParkingIncluded")
     private Boolean parkingIncluded;
 
+    // Additional fields that are referenced in the code
+    @Column(name = "driver_allowance", precision = 10, scale = 2)
+    private BigDecimal driverAllowance;
+
+    @Column(name = "night_charge", precision = 10, scale = 2)
+    private BigDecimal nightCharge;
+
+    @Column(name = "fuel_included")
+    private Boolean fuelIncluded;
+
+    @Column(name = "toll_included")
+    private Boolean tollIncluded;
+
     // ✅ Constructors
     public VehicleCharges() {}
 

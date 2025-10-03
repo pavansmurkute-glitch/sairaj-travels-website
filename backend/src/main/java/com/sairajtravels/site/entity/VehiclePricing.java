@@ -172,4 +172,69 @@ public class VehiclePricing {
     public void setUpdatedAt(java.time.LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    // Additional methods that are referenced in the code
+    public String getRateType() {
+        return "PER_KM"; // Default rate type
+    }
+
+    public void setRateType(String rateType) {
+        // Implementation for rate type if needed
+    }
+
+    public BigDecimal getRatePerKm() {
+        return perKmRate;
+    }
+
+    public void setRatePerKm(BigDecimal ratePerKm) {
+        this.perKmRate = ratePerKm;
+    }
+
+    public Integer getMinKmPerDay() {
+        return 200; // Default minimum km per day
+    }
+
+    public void setMinKmPerDay(Integer minKmPerDay) {
+        // Implementation for minimum km per day if needed
+    }
+
+    public Integer getPackageHours() {
+        return 8; // Default package hours
+    }
+
+    public void setPackageHours(Integer packageHours) {
+        // Implementation for package hours if needed
+    }
+
+    public Integer getPackageKm() {
+        return 200; // Default package km
+    }
+
+    public void setPackageKm(Integer packageKm) {
+        // Implementation for package km if needed
+    }
+
+    public BigDecimal getPackageRate() {
+        return basePrice;
+    }
+
+    public void setPackageRate(BigDecimal packageRate) {
+        this.basePrice = packageRate;
+    }
+
+    public BigDecimal getExtraKmRate() {
+        return perKmRate;
+    }
+
+    public void setExtraKmRate(BigDecimal extraKmRate) {
+        this.perKmRate = extraKmRate;
+    }
+
+    public BigDecimal getExtraHourRate() {
+        return perHourRate;
+    }
+
+    public void setExtraHourRate(BigDecimal extraHourRate) {
+        this.perHourRate = extraHourRate;
+    }
 }
