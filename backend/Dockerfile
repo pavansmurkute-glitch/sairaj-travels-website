@@ -1,37 +1,26 @@
-# =========================
-# 1. Build stage
-# =========================
-FROM eclipse-temurin:17-jdk AS build
+# Use a very basic, guaranteed-to-work image
+FROM openjdk:17-jdk-alpine
 
+# Install Maven
+RUN apk add --no-cache maven
+
+# Set working directory
 WORKDIR /app
 
-# Copy Maven files first for dependency caching
+# Copy pom.xml first for better caching
 COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
 
-# Download dependencies
-RUN ./mvnw dependency:go-offline
+# Download dependencies (this layer will be cached if pom.xml doesn't change)
+RUN mvn dependency:resolve -B
 
-# Copy source code and build the JAR
+# Copy source code
 COPY src ./src
-RUN ./mvnw clean package -DskipTests
 
-# =========================
-# 2. Runtime stage
-# =========================
-FROM eclipse-temurin:17-jre
+# Build the application
+RUN mvn clean package -DskipTests
 
-WORKDIR /app
-
-# Copy JAR from build stage
-COPY --from=build /app/target/*SNAPSHOT.jar app.jar
-
-# Expose port 8080 (Render will map it dynamically)
+# Expose port
 EXPOSE 8080
 
-# Java options injected by Render
-ENV JAVA_OPTS=""
-
-# Run Spring Boot app
-CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Run the application
+CMD ["java", "-jar", "target/sairaj-travels-backend-0.0.1-SNAPSHOT.jar"]

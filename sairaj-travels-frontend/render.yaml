@@ -2,11 +2,11 @@ services:
   - type: web
     name: sairaj-travels-frontend
     env: static
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npm run build && cp -r public/* dist/
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://your-backend-app.onrender.com
+        value: https://sairaj-travels-backend.onrender.com
     routes:
       - type: rewrite
         source: /*
