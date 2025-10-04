@@ -12,7 +12,7 @@ export default function VehicleDetailsPage() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/vehicle-details/${id}`)
+      .get(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/vehicles/${id}`)
       .then((res) => {
         setVehicleData(res.data);
         setLoading(false);
@@ -52,7 +52,11 @@ export default function VehicleDetailsPage() {
     );
   }
 
-  const { vehicle, pricing, charges, terms, images } = vehicleData;
+  const vehicle = vehicleData;
+  const images = vehicleData.images || [{ imageUrl: vehicleData.mainImageUrl }];
+  const pricing = vehicleData.pricing || [];
+  const charges = vehicleData.charges || [];
+  const terms = vehicleData.terms || [];
 
   return (
     <div className="min-h-screen bg-white">
