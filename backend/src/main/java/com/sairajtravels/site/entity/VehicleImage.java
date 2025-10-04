@@ -8,16 +8,22 @@ public class VehicleImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ImageId")
     private Integer imageId;
 
     // Foreign Key reference to Vehicle
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
-    @Column(name = "image_url", nullable = false, length = 500)
+    @Column(name = "ImageUrl", nullable = false, length = 500)
     private String imageUrl;
+
+    @Column(name = "CreatedAt")
+    private java.time.LocalDateTime createdAt;
+
+    @Column(name = "ImageType", length = 50)
+    private String imageType;
 
     // ✅ Constructors
     public VehicleImage() {}
@@ -52,4 +58,19 @@ public class VehicleImage {
         this.imageUrl = imageUrl;
     }
 
+    public java.time.LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.time.LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
 }
