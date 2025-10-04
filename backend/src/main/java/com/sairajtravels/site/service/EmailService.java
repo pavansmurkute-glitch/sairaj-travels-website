@@ -35,8 +35,11 @@ public class EmailService {
             helper.setText(htmlContent, true);
             
             mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send temporary password email", e);
+            System.out.println("✅ Temporary password email sent successfully to: " + toEmail);
+        } catch (Exception e) {
+            System.err.println("⚠️ Email service unavailable - temporary password for " + username + ": " + tempPassword);
+            System.err.println("Email error: " + e.getMessage());
+            // Don't throw exception - just log the credentials for manual sending
         }
     }
     
@@ -54,8 +57,12 @@ public class EmailService {
             helper.setText(htmlContent, true);
             
             mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send password reset email", e);
+            System.out.println("✅ Password reset email sent successfully to: " + toEmail);
+        } catch (Exception e) {
+            System.err.println("⚠️ Email service unavailable - password reset token for " + fullName + ": " + resetToken);
+            System.err.println("Reset link: " + frontendUrl + "/admin/reset-password?token=" + resetToken);
+            System.err.println("Email error: " + e.getMessage());
+            // Don't throw exception - just log the reset token for manual sending
         }
     }
     
@@ -220,8 +227,12 @@ public class EmailService {
             helper.setText(fallbackText, htmlContent);
             
             mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send HTML email", e);
+            System.out.println("✅ HTML email sent successfully to: " + toEmail);
+        } catch (Exception e) {
+            System.err.println("⚠️ Email service unavailable - failed to send HTML email to: " + toEmail);
+            System.err.println("Subject: " + subject);
+            System.err.println("Email error: " + e.getMessage());
+            // Don't throw exception - just log the failure
         }
     }
     
