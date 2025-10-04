@@ -8,7 +8,7 @@ export default function VehicleDetail() {
   const [vehicle, setVehicle] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/vehicles/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/vehicles/${id}`)
       .then(res => setVehicle(res.data))
       .catch(err => console.error("Error fetching vehicle details:", err));
   }, [id]);

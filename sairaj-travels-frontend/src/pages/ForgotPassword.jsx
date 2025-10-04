@@ -41,7 +41,7 @@ const ForgotPassword = () => {
 
   const validateToken = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/auth/validate-reset-token?token=${token}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/auth/validate-reset-token?token=${token}`);
       const data = await response.json();
       setTokenValid(data.valid);
       if (!data.valid) {
@@ -60,7 +60,7 @@ const ForgotPassword = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/admin/auth/forgot-password', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/admin/auth/reset-password', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, newPassword })

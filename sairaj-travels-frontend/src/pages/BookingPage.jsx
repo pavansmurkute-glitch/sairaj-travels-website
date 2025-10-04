@@ -65,8 +65,8 @@ export default function BookingPage() {
   const resolveImageSrc = (imgPath) => {
     if (!imgPath) return "/images/placeholder.png";
     if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) return imgPath;
-    if (imgPath.startsWith("/")) return `${import.meta.env.VITE_API_BASE?.replace('/api', '') || 'http://localhost:8080'}${imgPath}`;
-    return `${import.meta.env.VITE_API_BASE?.replace('/api', '') || 'http://localhost:8080'}/${imgPath}`;
+    if (imgPath.startsWith("/")) return `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${imgPath}`;
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/${imgPath}`;
   };
 
   // Fetch vehicles

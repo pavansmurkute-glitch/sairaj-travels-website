@@ -33,7 +33,7 @@ const AdminRoleManagement = () => {
 
   const loadRoles = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/roles/active');
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/roles/active`);
       if (response.ok) {
         const data = await response.json();
         // Parse permissions from JSON strings to objects
@@ -239,7 +239,7 @@ const AdminRoleManagement = () => {
   const savePermissions = async () => {
     setSaving(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/roles/${editingRole}/permissions`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/roles/${editingRole}/permissions`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ permissions })

@@ -43,7 +43,7 @@ const AdminUsers = () => {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/users');
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/users`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -57,7 +57,7 @@ const AdminUsers = () => {
 
   const loadRoles = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/roles/active');
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/roles/active`);
       if (response.ok) {
         const data = await response.json();
         setRoles(data);
@@ -89,7 +89,7 @@ const AdminUsers = () => {
         role: { id: newUser.roleId }
       };
 
-      const response = await fetch('http://localhost:8080/api/admin/users', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
@@ -122,7 +122,7 @@ const AdminUsers = () => {
   const handleToggleActive = async (userId, currentStatus) => {
     try {
       const action = currentStatus ? 'deactivate' : 'activate';
-      const response = await fetch(`http://localhost:8080/api/admin/users/${userId}/${action}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/users/${userId}/${action}`, {
         method: 'PATCH'
       });
 

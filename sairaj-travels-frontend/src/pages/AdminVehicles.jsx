@@ -558,7 +558,7 @@ const AdminVehicles = () => {
                 <img
                   src={(() => {
                     const imageSrc = vehicle.mainImageUrl
-                      ? `http://localhost:8080${vehicle.mainImageUrl}` // use backend URL like FleetPage
+                      ? `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${vehicle.mainImageUrl}` // use backend URL like FleetPage
                       : "/images/Kia_carnival.avif"; // fallback
                     return imageSrc;
                   })()}
@@ -1228,7 +1228,7 @@ const AdminVehicles = () => {
                             {vehicleDetails.images.map((image, index) => (
                               <div key={index} className="bg-white p-2 rounded border relative">
                                 <img 
-                                  src={`http://localhost:8080${image.imageUrl}`} 
+                                  src={`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${image.imageUrl}`} 
                                   alt={`Vehicle image ${index + 1}`}
                                   className="w-full h-24 object-cover rounded"
                                 />

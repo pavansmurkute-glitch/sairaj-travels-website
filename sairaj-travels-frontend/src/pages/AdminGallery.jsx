@@ -393,7 +393,7 @@ const AdminGallery = () => {
                 <div className="aspect-video bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
                   {photo.imagePath ? (
                     <img
-                      src={photo.imagePath.startsWith('http') ? photo.imagePath : `http://localhost:8080${photo.imagePath}`}
+                      src={photo.imagePath.startsWith('http') ? photo.imagePath : `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${photo.imagePath}`}
                       alt={photo.title}
                       className="w-full h-full object-cover rounded-lg"
                       onError={(e) => {
@@ -531,7 +531,7 @@ const AdminGallery = () => {
                 <div className="relative">
                   {item.imagePath ? (
                     <img
-                      src={item.imagePath.startsWith('http') ? item.imagePath : `http://localhost:8080${item.imagePath}`}
+                      src={item.imagePath.startsWith('http') ? item.imagePath : `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${item.imagePath}`}
                       alt={item.title}
                       className="w-full h-48 object-cover"
                       onError={(e) => {

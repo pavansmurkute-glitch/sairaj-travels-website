@@ -310,7 +310,7 @@ const AdminPackages = () => {
                         return pkg.packageImageUrl;
                       }
                       // If it's a relative path, prepend backend URL
-                      return `http://localhost:8080${pkg.packageImageUrl}`;
+                      return `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${pkg.packageImageUrl}`;
                     }
                     // No image URL provided, use a default placeholder
                     return "/images/placeholder1.svg";

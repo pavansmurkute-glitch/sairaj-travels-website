@@ -46,7 +46,7 @@ const AdminFileManager = () => {
   const loadFolderContents = useCallback(async (path = '') => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/files/browse?path=${encodeURIComponent(path)}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/files/browse?path=${encodeURIComponent(path)}`);
       const data = await response.json();
       setFolders(data.folders || []);
       setFiles(data.files || []);
@@ -79,7 +79,7 @@ const AdminFileManager = () => {
     if (!newFolderName.trim()) return;
     
     try {
-      const response = await fetch('http://localhost:8080/api/admin/files/create-folder', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/files/create-folder`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -159,7 +159,7 @@ const AdminFileManager = () => {
         }
       };
 
-      xhr.open('POST', 'http://localhost:8080/api/admin/files/upload');
+      xhr.open('POST', `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/admin/files/upload`);
       xhr.send(formData);
     } catch (error) {
       console.error('Upload error:', error);

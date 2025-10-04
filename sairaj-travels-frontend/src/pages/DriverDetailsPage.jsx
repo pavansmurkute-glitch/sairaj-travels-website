@@ -10,7 +10,7 @@ export default function DriverDetailsPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/drivers/${id}`)
+      .get(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/drivers/${id}`)
       .then((response) => {
         setDriver(response.data);
       })
@@ -68,7 +68,7 @@ export default function DriverDetailsPage() {
                 <img
                   src={
                     driver.photoPath
-                      ? `http://localhost:8080${driver.photoPath}`
+                      ? `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${driver.photoPath}`
                       : "/images/default_driver.jpg"
                   }
                   alt={driver.fullName}

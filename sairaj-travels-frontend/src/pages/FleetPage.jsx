@@ -203,7 +203,7 @@ export default function FleetPage() {
                     <img
                       src={(() => {
                         const imageSrc = v.vehicle?.mainImageUrl
-                          ? `http://localhost:8080${v.vehicle.mainImageUrl}` // use backend URL like VehicleDetailsPage
+                          ? `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${v.vehicle.mainImageUrl}` // use backend URL like VehicleDetailsPage
                           : "/images/Kia_carnival.avif"; // fallback
                         console.log(`Image for ${v.vehicle?.name}:`, imageSrc);
                         return imageSrc;

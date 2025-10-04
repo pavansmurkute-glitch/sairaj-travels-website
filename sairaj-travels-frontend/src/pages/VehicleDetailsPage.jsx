@@ -12,7 +12,7 @@ export default function VehicleDetailsPage() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:8080/api/vehicle-details/${id}`)
+      .get(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/vehicle-details/${id}`)
       .then((res) => {
         setVehicleData(res.data);
         setLoading(false);
@@ -107,7 +107,7 @@ export default function VehicleDetailsPage() {
                 <div className="relative group">
                   <div className="aspect-w-16 aspect-h-10 overflow-hidden rounded-2xl shadow-2xl">
                     <img
-                      src={`http://localhost:8080${images[selectedImage].imageUrl}`}
+                      src={`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${images[selectedImage].imageUrl}`}
                       alt={vehicle.name}
                       className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                     />
@@ -158,7 +158,7 @@ export default function VehicleDetailsPage() {
                     >
                       <div className="aspect-w-1 aspect-h-1">
                         <img
-                          src={`http://localhost:8080${img.imageUrl}`}
+                          src={`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${img.imageUrl}`}
                           alt={`${vehicle.name} ${index + 1}`}
                           className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
                         />

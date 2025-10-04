@@ -283,7 +283,7 @@ const AdminDrivers = () => {
                 <img
                   src={(() => {
                     const imageSrc = driver.photoPath
-                      ? `http://localhost:8080${driver.photoPath}` // use backend URL like FleetPage
+                      ? `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${driver.photoPath}` // use backend URL like FleetPage
                       : "/images/placeholder2.svg"; // fallback for drivers
                     return imageSrc;
                   })()}
@@ -844,7 +844,7 @@ const AdminDrivers = () => {
                   {selectedDriver.photoPath && (
                     <div className="text-center">
                       <img 
-                        src={`http://localhost:8080${selectedDriver.photoPath}`} 
+                        src={`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${selectedDriver.photoPath}`} 
                         alt={selectedDriver.fullName}
                         className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-gray-200"
                       />

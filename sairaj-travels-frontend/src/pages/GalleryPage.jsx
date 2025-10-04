@@ -397,7 +397,7 @@ export default function GalleryPage() {
                 <div className="relative">
                   {img.imagePath ? (
                     <img
-                      src={img.imagePath.startsWith('http') ? img.imagePath : `http://localhost:8080${img.imagePath}`}
+                      src={img.imagePath.startsWith('http') ? img.imagePath : `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}${img.imagePath}`}
                       alt={img.title}
                       className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
