@@ -24,7 +24,18 @@ public class VehiclePricingController {
 
     @GetMapping("/vehicle/{vehicleId}")
     public List<VehiclePricingDTO> getPricingByVehicle(@PathVariable Integer vehicleId) {
-        return vehiclePricingService.getPricingByVehicle(vehicleId);
+        System.out.println("🔍 VehiclePricingController: getPricingByVehicle called with vehicleId: " + vehicleId);
+        try {
+            List<VehiclePricingDTO> result = vehiclePricingService.getPricingByVehicle(vehicleId);
+            System.out.println("✅ VehiclePricingController: Successfully retrieved " + result.size() + " pricing records for vehicle " + vehicleId);
+            return result;
+        } catch (Exception e) {
+            System.err.println("❌ VehiclePricingController Error: " + e.getMessage());
+            System.err.println("❌ VehiclePricingController Error Class: " + e.getClass().getName());
+            System.err.println("❌ VehiclePricingController Error Stack Trace:");
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @PostMapping
