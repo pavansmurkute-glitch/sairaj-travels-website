@@ -21,14 +21,9 @@ public class StaticResourceConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
         
-        // Unified static resource handler for all images
-        // This serves both existing files and File Manager uploads
+        // Simplified static resource handler - use only classpath for reliability
         registry.addResourceHandler("/images/**")
-                .addResourceLocations(
-                    "classpath:/static/images/",  // For existing files
-                    "file:" + Paths.get(uploadDir).toAbsolutePath().toString() + "/",  // For File Manager uploads
-                    "file:" + Paths.get("target/classes/static/images/").toAbsolutePath().toString() + "/"  // Development fallback
-                )
+                .addResourceLocations("classpath:/static/images/")
                 .setCachePeriod(3600);
     }
 }
