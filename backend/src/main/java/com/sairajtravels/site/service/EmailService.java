@@ -265,40 +265,64 @@ public class EmailService {
     
     public void notifyAdmin(String subject, String message, String fromEmail) {
         String timestamp = java.time.LocalDateTime.now().toString();
+        
+        // Use SendGrid for admin notifications too
+        String adminSubject = "Admin Notification: " + subject;
+        String adminHtml = String.format("""
+            <html><body>
+            <h3>Admin Notification</h3>
+            <p><strong>Subject:</strong> %s</p>
+            <p><strong>From:</strong> %s</p>
+            <h4>Message:</h4>
+            <p>%s</p>
+            <hr>
+            <p><em>This is an automated notification from Sairaj Travels system.</em></p>
+            </body></html>
+            """, subject, fromEmail, message);
+        
+        String adminText = String.format("""
+            Admin Notification
+            
+            Subject: %s
+            From: %s
+            
+            Message:
+            %s
+            
+            ---
+            This is an automated notification from Sairaj Travels system.
+            """, subject, fromEmail, message);
+        
+        // Try SendGrid first
+        if (sendGridEmailService.isConfigured()) {
+            boolean sendGridSuccess = sendGridEmailService.sendHtmlEmail(this.fromEmail, adminSubject, adminHtml, adminText);
+            if (sendGridSuccess) {
+                System.out.println("✅ [" + timestamp + "] SendGrid admin notification sent successfully");
+                System.out.println("   Subject: " + adminSubject);
+                return;
+            }
+        }
+        
+        // Fallback to Gmail SMTP
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(this.fromEmail);
             mailMessage.setTo(this.fromEmail); // Send to admin email
-            mailMessage.setSubject("Admin Notification: " + subject);
-            mailMessage.setText(String.format("""
-                Admin Notification
-                
-                Subject: %s
-                From: %s
-                
-                Message:
-                %s
-                
-                ---
-                This is an automated notification from Sairaj Travels system.
-                """, subject, fromEmail, message));
+            mailMessage.setSubject(adminSubject);
+            mailMessage.setText(adminText);
             
             mailSender.send(mailMessage);
-            System.out.println("✅ [" + timestamp + "] Admin notification sent successfully");
-            System.out.println("   Subject: Admin Notification: " + subject);
-            System.out.println("   From: " + fromEmail);
+            System.out.println("✅ [" + timestamp + "] Gmail SMTP admin notification sent successfully");
+            System.out.println("   Subject: " + adminSubject);
         } catch (Exception e) {
-            System.err.println("❌ [" + timestamp + "] Failed to send admin notification");
-            System.err.println("   Subject: " + subject);
-            System.err.println("   From: " + fromEmail);
+            System.err.println("❌ [" + timestamp + "] Both SendGrid and Gmail SMTP failed for admin notification");
+            System.err.println("   Subject: " + adminSubject);
             System.err.println("   Error: " + e.getMessage());
             System.err.println("   📧 ADMIN NOTIFICATION FOR MANUAL SENDING:");
             System.err.println("   To: " + this.fromEmail);
-            System.err.println("   Subject: Admin Notification: " + subject);
-            System.err.println("   Message: " + message);
-            System.err.println("   Original From: " + fromEmail);
+            System.err.println("   Subject: " + adminSubject);
+            System.err.println("   Message: " + adminHtml);
             System.err.println("   📧 END ADMIN NOTIFICATION");
-            // Don't throw exception for admin notifications to avoid breaking business logic
         }
     }
 }
