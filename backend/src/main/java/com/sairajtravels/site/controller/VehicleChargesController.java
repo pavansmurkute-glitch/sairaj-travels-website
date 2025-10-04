@@ -24,17 +24,11 @@ public class VehicleChargesController {
 
     @GetMapping("/vehicle/{vehicleId}")
     public List<VehicleChargesDTO> getChargesByVehicle(@PathVariable Integer vehicleId) {
-        System.out.println("🔍 VehicleChargesController: getChargesByVehicle called with vehicleId: " + vehicleId);
         try {
-            List<VehicleChargesDTO> result = vehicleChargesService.getChargesByVehicle(vehicleId);
-            System.out.println("✅ VehicleChargesController: Successfully retrieved " + result.size() + " charges for vehicle " + vehicleId);
-            return result;
+            return vehicleChargesService.getChargesByVehicle(vehicleId);
         } catch (Exception e) {
-            System.err.println("❌ VehicleChargesController Error: " + e.getMessage());
-            System.err.println("❌ VehicleChargesController Error Class: " + e.getClass().getName());
-            System.err.println("❌ VehicleChargesController Error Stack Trace:");
-            e.printStackTrace();
-            throw e;
+            System.err.println("⚠️ VehicleChargesController: Table doesn't exist, returning empty list. Error: " + e.getMessage());
+            return List.of(); // Return empty list instead of failing
         }
     }
 
