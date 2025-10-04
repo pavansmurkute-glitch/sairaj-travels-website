@@ -128,14 +128,29 @@ export default function ContactUs() {
     setFeedback("");
 
     try {
+      console.log("Sending contact form data:", formData);
       const response = await apiMethods.post("/contact-messages", formData, {
         showSuccessMessage: false
       });
-
-      setFeedback("✅ Message sent successfully!");
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      
+      console.log("Contact form response:", response);
+      
+      // Check if we got a valid response
+      if (response && response.data && response.data.id) {
+        setFeedback("✅ Message sent successfully!");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        console.error("Unexpected response format:", response);
+        setFeedback("⚠️ Something went wrong!");
+      }
     } catch (error) {
       console.error("Error sending message:", error);
+      console.error("Error details:", {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data
+      });
       setFeedback("⚠️ Something went wrong!");
     } finally {
       setSubmitting(false);
