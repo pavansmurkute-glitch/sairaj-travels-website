@@ -17,60 +17,64 @@ public class VehiclePricing {
     @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
-    @Column(name = "base_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal basePrice;
-
-    @Column(name = "per_km_rate", precision = 10, scale = 2, nullable = false)
-    private BigDecimal perKmRate;
-
-    @Column(name = "per_hour_rate", precision = 10, scale = 2, nullable = false)
-    private BigDecimal perHourRate;
-
-    @Column(name = "night_charge", precision = 10, scale = 2)
-    private BigDecimal nightCharge;
-
-    @Column(name = "toll_charges", precision = 10, scale = 2)
-    private BigDecimal tollCharges;
-
-    @Column(name = "parking_charges", precision = 10, scale = 2)
-    private BigDecimal parkingCharges;
-
-    @Column(name = "meal_charges", precision = 10, scale = 2)
-    private BigDecimal mealCharges;
-
-    @Column(name = "emergency_charges", precision = 10, scale = 2)
-    private BigDecimal emergencyCharges;
-
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @Column(name = "created_at")
-    private java.time.LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private java.time.LocalDateTime updatedAt;
-
-    // Additional fields for the service layer
-    @Column(name = "rate_type", length = 50)
+    // Only the columns that actually exist in the database
+    @Column(name = "RateType", length = 50)
     private String rateType;
 
-    @Column(name = "min_km_per_day")
+    @Column(name = "RatePerKm", precision = 10, scale = 2)
+    private BigDecimal ratePerKm;
+
+    @Column(name = "MinKmPerDay")
     private Integer minKmPerDay;
 
-    @Column(name = "package_hours")
+    @Column(name = "PackageHours")
     private Integer packageHours;
 
-    @Column(name = "package_km")
+    @Column(name = "PackageKm")
     private Integer packageKm;
 
-    @Column(name = "package_rate", precision = 10, scale = 2)
+    @Column(name = "PackageRate", precision = 10, scale = 2)
     private BigDecimal packageRate;
 
-    @Column(name = "extra_km_rate", precision = 10, scale = 2)
+    @Column(name = "ExtraKmRate", precision = 10, scale = 2)
     private BigDecimal extraKmRate;
 
-    @Column(name = "extra_hour_rate", precision = 10, scale = 2)
+    @Column(name = "ExtraHourRate", precision = 10, scale = 2)
     private BigDecimal extraHourRate;
+
+    // Fields that don't exist in database but are used in code - make them transient
+    @Transient
+    private BigDecimal basePrice;
+
+    @Transient
+    private BigDecimal perKmRate;
+
+    @Transient
+    private BigDecimal perHourRate;
+
+    @Transient
+    private BigDecimal nightCharge;
+
+    @Transient
+    private BigDecimal tollCharges;
+
+    @Transient
+    private BigDecimal parkingCharges;
+
+    @Transient
+    private BigDecimal mealCharges;
+
+    @Transient
+    private BigDecimal emergencyCharges;
+
+    @Transient
+    private Boolean isActive;
+
+    @Transient
+    private java.time.LocalDateTime createdAt;
+
+    @Transient
+    private java.time.LocalDateTime updatedAt;
 
     // ✅ Constructors
     public VehiclePricing() {}
@@ -205,11 +209,11 @@ public class VehiclePricing {
     }
 
     public BigDecimal getRatePerKm() {
-        return perKmRate;
+        return ratePerKm;
     }
 
     public void setRatePerKm(BigDecimal ratePerKm) {
-        this.perKmRate = ratePerKm;
+        this.ratePerKm = ratePerKm;
     }
 
     public Integer getMinKmPerDay() {

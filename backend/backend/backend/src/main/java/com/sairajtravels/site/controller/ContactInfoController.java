@@ -2,10 +2,12 @@ package com.sairajtravels.site.controller;
 
 import com.sairajtravels.site.entity.ContactInfo;
 import com.sairajtravels.site.service.ContactInfoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/contact")
+@CrossOrigin(origins = "*")
 public class ContactInfoController {
 
     private final ContactInfoService service;
@@ -16,9 +18,14 @@ public class ContactInfoController {
 
     // ✅ Fetch contact info
     @GetMapping
-    public ContactInfo getContactInfo() {
-        return service.getContactInfo()
-                .orElseThrow(() -> new RuntimeException("Contact Info not found"));
+    public ResponseEntity<ContactInfo> getContactInfo() {
+        try {
+            ContactInfo contactInfo = service.getContactInfo()
+                    .orElseThrow(() -> new RuntimeException("Contact Info not found"));
+            return ResponseEntity.ok(contactInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     // ✅ Create contact info

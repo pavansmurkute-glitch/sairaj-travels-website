@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/contact-messages")
+@CrossOrigin(origins = "*")
 public class ContactMessageController {
 
     private final ContactMessageService service;

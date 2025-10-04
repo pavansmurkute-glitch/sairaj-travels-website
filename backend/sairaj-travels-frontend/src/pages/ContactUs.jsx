@@ -33,11 +33,28 @@ export default function ContactUs() {
    useEffect(() => {
      const fetchData = async () => {
        try {
+         console.log('🔍 ContactUs: Fetching contact info...');
+         console.log('🌐 API Base URL:', import.meta.env.VITE_API_URL);
+         console.log('📡 Full URL will be:', `${import.meta.env.VITE_API_URL}/api/contact`);
+         
          const res = await apiMethods.get("/contact");
          const data = res.data;
+         console.log('✅ ContactUs: Contact info received:', data);
          setContact(data);
        } catch (err) {
-         console.error("Error fetching contact info:", err);
+         console.error("❌ ContactUs: Error fetching contact info:", err);
+         console.error('📊 ContactUs: Error Details:', {
+           message: err.message,
+           status: err.response?.status,
+           statusText: err.response?.statusText,
+           data: err.response?.data,
+           config: {
+             url: err.config?.url,
+             baseURL: err.config?.baseURL,
+             method: err.config?.method
+           },
+           request: err.request ? 'Network request made but no response' : 'No network request made'
+         });
        } finally {
          setLoading(false);
        }
@@ -85,10 +102,21 @@ export default function ContactUs() {
   if (!contact) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg max-w-md mx-auto">
+        <div className="text-center max-w-2xl mx-auto px-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
             <p className="font-semibold text-sm">Error Loading Contact Info</p>
             <p className="text-xs">Failed to load contact information. Please try again later.</p>
+          </div>
+          
+          {/* Debug Information */}
+          <div className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-left">
+            <p className="font-semibold text-sm mb-2">Debug Information:</p>
+            <div className="text-xs space-y-1">
+              <p><strong>API Base URL:</strong> {import.meta.env.VITE_API_URL || 'Not set'}</p>
+              <p><strong>Expected URL:</strong> {import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/contact` : 'Not available'}</p>
+              <p><strong>Loading State:</strong> {loading ? 'Loading...' : 'Failed to load'}</p>
+              <p className="mt-2 text-gray-600">Check browser console (F12) for detailed error logs.</p>
+            </div>
           </div>
         </div>
       </div>

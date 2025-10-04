@@ -187,11 +187,27 @@ const fetchContactInfo = async () => {
   try {
     setContactLoading(true);
     console.log('🔍 Fetching contact info...');
+    console.log('🌐 API Base URL:', import.meta.env.VITE_API_URL);
+    console.log('📡 Full URL will be:', `${import.meta.env.VITE_API_URL}/api/contact`);
+    
     const response = await apiMethods.get('/contact');
     console.log('✅ Contact info received:', response.data);
     setContactInfo(response.data);
   } catch (error) {
     console.error('❌ Error fetching contact info:', error);
+    console.error('📊 Error Details:', {
+      message: error.message,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      config: {
+        url: error.config?.url,
+        baseURL: error.config?.baseURL,
+        method: error.config?.method
+      },
+      request: error.request ? 'Network request made but no response' : 'No network request made'
+    });
+    
     // Fallback to default contact info if API fails
     setContactInfo({
       phoneOffice: '+91 9850748273',

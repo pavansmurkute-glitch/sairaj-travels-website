@@ -17,35 +17,35 @@ public class VehicleCharges {
     @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
-    @Column(name = "charge_type", length = 50, nullable = false)
+    @Column(name = "ChargeType", length = 50, nullable = false)
     private String chargeType;
 
-    @Column(name = "charge_amount", precision = 10, scale = 2, nullable = false)
+    @Column(name = "ChargeAmount", precision = 10, scale = 2, nullable = false)
     private BigDecimal chargeAmount;
 
-    @Column(name = "is_mandatory")
+    @Column(name = "IsMandatory")
     private Boolean isMandatory;
 
-    @Column(name = "description", length = 200)
+    @Column(name = "Description", length = 200)
     private String description;
 
-    @Column(name = "created_at")
+    @Column(name = "CreatedAt")
     private java.time.LocalDateTime createdAt;
 
     @Column(name = "ParkingIncluded")
     private Boolean parkingIncluded;
 
     // Additional fields that are referenced in the code
-    @Column(name = "driver_allowance", precision = 10, scale = 2)
+    @Column(name = "DriverAllowance", precision = 10, scale = 2)
     private BigDecimal driverAllowance;
 
-    @Column(name = "night_charge", precision = 10, scale = 2)
+    @Column(name = "NightCharge", precision = 10, scale = 2)
     private BigDecimal nightCharge;
 
-    @Column(name = "fuel_included")
+    @Column(name = "FuelIncluded")
     private Boolean fuelIncluded;
 
-    @Column(name = "toll_included")
+    @Column(name = "TollIncluded")
     private Boolean tollIncluded;
 
     // ✅ Constructors
