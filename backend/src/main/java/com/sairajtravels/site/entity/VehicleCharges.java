@@ -117,4 +117,44 @@ public class VehicleCharges {
     public void setParkingIncluded(Boolean parkingIncluded) {
         this.parkingIncluded = parkingIncluded;
     }
+
+    public String getChargeType() {
+        return chargeType;
+    }
+
+    public void setChargeType(String chargeType) {
+        this.chargeType = chargeType;
+    }
+
+    public BigDecimal getChargeAmount() {
+        return chargeAmount;
+    }
+
+    public void setChargeAmount(BigDecimal chargeAmount) {
+        this.chargeAmount = chargeAmount;
+    }
+
+    public Boolean getIsMandatory() {
+        return isMandatory;
+    }
+
+    public void setIsMandatory(Boolean isMandatory) {
+        this.isMandatory = isMandatory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public java.time.LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.time.LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

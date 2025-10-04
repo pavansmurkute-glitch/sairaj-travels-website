@@ -47,9 +47,6 @@ public class VehiclePricing {
     private BigDecimal basePrice;
 
     @Transient
-    private BigDecimal perKmRate;
-
-    @Transient
     private BigDecimal perHourRate;
 
     @Transient
@@ -79,12 +76,12 @@ public class VehiclePricing {
     // ✅ Constructors
     public VehiclePricing() {}
 
-    public VehiclePricing(Vehicle vehicle, BigDecimal basePrice, BigDecimal perKmRate,
+    public VehiclePricing(Vehicle vehicle, BigDecimal basePrice, BigDecimal ratePerKm,
                           BigDecimal perHourRate, BigDecimal nightCharge, BigDecimal tollCharges,
                           BigDecimal parkingCharges, BigDecimal mealCharges, BigDecimal emergencyCharges) {
         this.vehicle = vehicle;
         this.basePrice = basePrice;
-        this.perKmRate = perKmRate;
+        this.ratePerKm = ratePerKm;
         this.perHourRate = perHourRate;
         this.nightCharge = nightCharge;
         this.tollCharges = tollCharges;
@@ -120,11 +117,11 @@ public class VehiclePricing {
     }
 
     public BigDecimal getPerKmRate() {
-        return perKmRate;
+        return ratePerKm;
     }
 
-    public void setPerKmRate(BigDecimal perKmRate) {
-        this.perKmRate = perKmRate;
+    public void setPerKmRate(BigDecimal ratePerKm) {
+        this.ratePerKm = ratePerKm;
     }
 
     public BigDecimal getPerHourRate() {
