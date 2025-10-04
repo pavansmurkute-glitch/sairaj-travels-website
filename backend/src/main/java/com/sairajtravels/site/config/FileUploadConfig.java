@@ -11,7 +11,7 @@ public class FileUploadConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Serve uploaded files statically
+        // Serve uploaded files statically - unified handler for both existing and File Manager uploads
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("classpath:/static/images/")
                 .setCachePeriod(3600);
