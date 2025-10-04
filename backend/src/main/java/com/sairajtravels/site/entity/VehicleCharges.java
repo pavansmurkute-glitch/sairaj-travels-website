@@ -14,7 +14,7 @@ public class VehicleCharges {
 
     // Foreign Key reference to Vehicle
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
     @Column(name = "charge_type", length = 50, nullable = false)
