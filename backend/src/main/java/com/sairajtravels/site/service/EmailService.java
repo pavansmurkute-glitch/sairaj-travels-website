@@ -15,6 +15,9 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
     
+    @Autowired
+    private SendGridEmailService sendGridEmailService;
+    
     @Value("${spring.mail.username:admin@sairajtravels.com}")
     private String fromEmail;
     
@@ -217,6 +220,21 @@ public class EmailService {
     
     public void sendHtmlEmail(String toEmail, String subject, String htmlContent, String fallbackText) {
         String timestamp = java.time.LocalDateTime.now().toString();
+        
+        // Try SendGrid first (more reliable on hosting platforms)
+        if (sendGridEmailService.isConfigured()) {
+            boolean sendGridSuccess = sendGridEmailService.sendHtmlEmail(toEmail, subject, htmlContent, fallbackText);
+            if (sendGridSuccess) {
+                System.out.println("✅ [" + timestamp + "] SendGrid HTML email sent successfully to: " + toEmail);
+                return;
+            } else {
+                System.err.println("⚠️ [" + timestamp + "] SendGrid failed, trying Gmail SMTP fallback for: " + toEmail);
+            }
+        } else {
+            System.out.println("ℹ️ [" + timestamp + "] SendGrid not configured, using Gmail SMTP for: " + toEmail);
+        }
+        
+        // Fallback to Gmail SMTP
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -227,13 +245,13 @@ public class EmailService {
             helper.setText(fallbackText, htmlContent);
             
             mailSender.send(message);
-            System.out.println("✅ [" + timestamp + "] HTML email sent successfully to: " + toEmail);
+            System.out.println("✅ [" + timestamp + "] Gmail SMTP HTML email sent successfully to: " + toEmail);
             System.out.println("   Subject: " + subject);
         } catch (Exception e) {
-            System.err.println("❌ [" + timestamp + "] Email service unavailable - failed to send HTML email");
+            System.err.println("❌ [" + timestamp + "] Both SendGrid and Gmail SMTP failed - failed to send HTML email");
             System.err.println("   To: " + toEmail);
             System.err.println("   Subject: " + subject);
-            System.err.println("   Error: " + e.getMessage());
+            System.err.println("   Gmail SMTP Error: " + e.getMessage());
             System.err.println("   📧 EMAIL CONTENT FOR MANUAL SENDING:");
             System.err.println("   From: " + fromEmail);
             System.err.println("   To: " + toEmail);

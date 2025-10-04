@@ -69,6 +69,13 @@ services:
         value: 30000
       - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_WRITE_TIMEOUT
         value: 30000
+      # SendGrid Configuration (Primary email service)
+      - key: SENDGRID_API_KEY
+        value: YOUR_SENDGRID_API_KEY_HERE
+      - key: SENDGRID_FROM_EMAIL
+        value: PavansMurkute@gmail.com
+      - key: SENDGRID_FROM_NAME
+        value: Sairaj Travels
 
   # -------------------------
   # Frontend Service (React + Vite)
