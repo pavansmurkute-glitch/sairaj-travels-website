@@ -65,10 +65,27 @@ public class VehiclePricingService {
     }
 
     public List<VehiclePricingDTO> getPricingByVehicle(Integer vehicleId) {
-        return vehiclePricingRepository.findByVehicle_VehicleId(vehicleId)
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        System.out.println("🔍 VehiclePricingService: getPricingByVehicle called with vehicleId: " + vehicleId);
+        try {
+            System.out.println("🔍 VehiclePricingService: Repository instance: " + (vehiclePricingRepository != null ? "OK" : "NULL"));
+            System.out.println("🔍 VehiclePricingService: Attempting to find pricing for vehicle ID: " + vehicleId);
+            
+            List<VehiclePricing> pricingList = vehiclePricingRepository.findByVehicle_VehicleId(vehicleId);
+            System.out.println("🔍 VehiclePricingService: Found " + pricingList.size() + " pricing records from database");
+            
+            List<VehiclePricingDTO> result = pricingList.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+            
+            System.out.println("✅ VehiclePricingService: Successfully converted " + result.size() + " pricing records to DTOs");
+            return result;
+        } catch (Exception e) {
+            System.err.println("❌ VehiclePricingService Error: " + e.getMessage());
+            System.err.println("❌ VehiclePricingService Error Class: " + e.getClass().getName());
+            System.err.println("❌ VehiclePricingService Error Stack Trace:");
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public VehiclePricingDTO createPricing(VehiclePricingDTO dto) {

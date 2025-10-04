@@ -59,10 +59,27 @@ public class VehicleChargesService {
     }
 
     public List<VehicleChargesDTO> getChargesByVehicle(Integer vehicleId) {
-        return vehicleChargesRepository.findByVehicle_VehicleId(vehicleId)
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        System.out.println("🔍 VehicleChargesService: getChargesByVehicle called with vehicleId: " + vehicleId);
+        try {
+            System.out.println("🔍 VehicleChargesService: Repository instance: " + (vehicleChargesRepository != null ? "OK" : "NULL"));
+            System.out.println("🔍 VehicleChargesService: Attempting to find charges for vehicle ID: " + vehicleId);
+            
+            List<VehicleCharges> chargesList = vehicleChargesRepository.findByVehicle_VehicleId(vehicleId);
+            System.out.println("🔍 VehicleChargesService: Found " + chargesList.size() + " charges records from database");
+            
+            List<VehicleChargesDTO> result = chargesList.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+            
+            System.out.println("✅ VehicleChargesService: Successfully converted " + result.size() + " charges records to DTOs");
+            return result;
+        } catch (Exception e) {
+            System.err.println("❌ VehicleChargesService Error: " + e.getMessage());
+            System.err.println("❌ VehicleChargesService Error Class: " + e.getClass().getName());
+            System.err.println("❌ VehicleChargesService Error Stack Trace:");
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public VehicleChargesDTO createCharges(VehicleChargesDTO dto) {
