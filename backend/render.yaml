@@ -71,7 +71,7 @@ services:
         value: 30000
       # SendGrid Configuration (Primary email service)
       - key: SENDGRID_API_KEY
-        value: YOUR_SENDGRID_API_KEY_HERE
+        value: SG.YOUR_ACTUAL_API_KEY_HERE
       - key: SENDGRID_FROM_EMAIL
         value: PavansMurkute@gmail.com
       - key: SENDGRID_FROM_NAME
