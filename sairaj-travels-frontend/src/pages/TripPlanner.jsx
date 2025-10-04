@@ -91,6 +91,7 @@ export default function TripPlanner() {
   const [vehicleCharges, setVehicleCharges] = useState(null);
   const [vehicleDetailsLoading, setVehicleDetailsLoading] = useState(false);
   const [vehicleDetailsError, setVehicleDetailsError] = useState(null);
+  const [vehicleDetailsErrorDetails, setVehicleDetailsErrorDetails] = useState(null);
 
   const [extras, setExtras] = useState({
     food: 500,
@@ -205,11 +206,19 @@ export default function TripPlanner() {
     setVehicleDetailsError(null);
 
     try {
+      console.log(`🔍 Fetching vehicle details for vehicle ID: ${vehicleId}`);
+      
       const [vehicleResponse, pricingResponse, chargesResponse] = await Promise.all([
         apiMethods.get(`/vehicles/${vehicleId}`),
         apiMethods.get(`/vehicle-pricing/vehicle/${vehicleId}`),
         apiMethods.get(`/vehicle-charges/vehicle/${vehicleId}`)
       ]);
+
+      console.log('✅ All API calls successful:', {
+        vehicle: vehicleResponse.data,
+        pricing: pricingResponse.data,
+        charges: chargesResponse.data
+      });
 
       setVehicleDetails(vehicleResponse.data);
       setVehiclePricing(pricingResponse.data);
@@ -220,8 +229,38 @@ export default function TripPlanner() {
         setVehicleDetailsError("Vehicle pricing details not available. Please contact support.");
       }
     } catch (error) {
-      console.error('Error fetching vehicle details:', error);
-      setVehicleDetailsError("Unable to load vehicle details. Please try again or contact support.");
+      console.error('❌ Error fetching vehicle details:', error);
+      console.error('📊 Detailed Error Info:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        config: {
+          url: error.config?.url,
+          baseURL: error.config?.baseURL,
+          method: error.config?.method
+        },
+        request: error.request ? 'Network request made but no response' : 'No network request made'
+      });
+      
+      // Create detailed error message for display
+      const errorDetails = {
+        timestamp: new Date().toLocaleString(),
+        vehicleId: vehicleId,
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        url: error.config?.url,
+        baseURL: error.config?.baseURL,
+        method: error.config?.method,
+        responseData: error.response?.data,
+        requestMade: error.request ? 'Yes' : 'No'
+      };
+      
+      setVehicleDetailsError(`Unable to load vehicle details. Error: ${error.message} (Status: ${error.response?.status || 'No Response'})`);
+      
+      // Also set detailed error for debugging
+      setVehicleDetailsErrorDetails(errorDetails);
     } finally {
       setVehicleDetailsLoading(false);
     }
@@ -1819,6 +1858,34 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
                         <p className="text-sm text-red-600 mt-1">{vehicleDetailsError}</p>
                       </div>
                     </div>
+                    
+                    {/* Detailed Error Information */}
+                    {vehicleDetailsErrorDetails && (
+                      <div className="mt-4 bg-red-100 border border-red-300 rounded-lg p-3">
+                        <h4 className="text-xs font-semibold text-red-800 mb-2">🔴 Live Backend Error Details:</h4>
+                        <div className="text-xs text-red-700 space-y-1">
+                          <p><strong>Time:</strong> {vehicleDetailsErrorDetails.timestamp}</p>
+                          <p><strong>Vehicle ID:</strong> {vehicleDetailsErrorDetails.vehicleId}</p>
+                          <p><strong>Error Message:</strong> {vehicleDetailsErrorDetails.message}</p>
+                          <p><strong>HTTP Status:</strong> {vehicleDetailsErrorDetails.status} {vehicleDetailsErrorDetails.statusText}</p>
+                          <p><strong>API URL:</strong> {vehicleDetailsErrorDetails.url}</p>
+                          <p><strong>Base URL:</strong> {vehicleDetailsErrorDetails.baseURL}</p>
+                          <p><strong>Method:</strong> {vehicleDetailsErrorDetails.method}</p>
+                          <p><strong>Request Made:</strong> {vehicleDetailsErrorDetails.requestMade}</p>
+                          {vehicleDetailsErrorDetails.responseData && (
+                            <div>
+                              <p><strong>Response Data:</strong></p>
+                              <pre className="bg-red-200 p-2 rounded text-xs overflow-auto max-h-32">
+                                {JSON.stringify(vehicleDetailsErrorDetails.responseData, null, 2)}
+                              </pre>
+                            </div>
+                          )}
+                          <p className="mt-2 text-red-600">
+                            <strong>Check browser console (F12) for more details</strong>
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
