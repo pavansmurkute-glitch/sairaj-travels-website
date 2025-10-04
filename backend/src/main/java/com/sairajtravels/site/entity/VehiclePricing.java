@@ -9,7 +9,7 @@ public class VehiclePricing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "PricingId")
     private Integer pricingId;
 
     // Foreign Key reference to Vehicle
