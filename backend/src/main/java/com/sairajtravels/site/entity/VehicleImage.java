@@ -3,32 +3,32 @@ package com.sairajtravels.site.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "vehicle_images")
+@Table(name = "VehicleImages")
 public class VehicleImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ImageId")
     private Integer imageId;
 
     // Foreign Key reference to Vehicle
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
-    @Column(name = "image_url", nullable = false, length = 500)
+    @Column(name = "ImageUrl", nullable = false, length = 500)
     private String imageUrl;
 
-    @Column(name = "image_type", length = 50)
+    @Column(name = "ImageType", length = 50)
     private String imageType;
 
-    @Column(name = "is_primary")
+    @Column(name = "IsPrimary")
     private Boolean isPrimary;
 
-    @Column(name = "sort_order")
+    @Column(name = "SortOrder")
     private Integer sortOrder;
 
-    @Column(name = "created_at")
+    @Column(name = "CreatedAt")
     private java.time.LocalDateTime createdAt;
 
     // ✅ Constructors
