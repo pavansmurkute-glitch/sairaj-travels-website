@@ -7,7 +7,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -217,6 +216,7 @@ public class EmailService {
     // Backward compatibility methods for existing services
     
     public void sendHtmlEmail(String toEmail, String subject, String htmlContent, String fallbackText) {
+        String timestamp = java.time.LocalDateTime.now().toString();
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -227,16 +227,26 @@ public class EmailService {
             helper.setText(fallbackText, htmlContent);
             
             mailSender.send(message);
-            System.out.println("✅ HTML email sent successfully to: " + toEmail);
+            System.out.println("✅ [" + timestamp + "] HTML email sent successfully to: " + toEmail);
+            System.out.println("   Subject: " + subject);
         } catch (Exception e) {
-            System.err.println("⚠️ Email service unavailable - failed to send HTML email to: " + toEmail);
-            System.err.println("Subject: " + subject);
-            System.err.println("Email error: " + e.getMessage());
+            System.err.println("❌ [" + timestamp + "] Email service unavailable - failed to send HTML email");
+            System.err.println("   To: " + toEmail);
+            System.err.println("   Subject: " + subject);
+            System.err.println("   Error: " + e.getMessage());
+            System.err.println("   📧 EMAIL CONTENT FOR MANUAL SENDING:");
+            System.err.println("   From: " + fromEmail);
+            System.err.println("   To: " + toEmail);
+            System.err.println("   Subject: " + subject);
+            System.err.println("   HTML Content: " + htmlContent);
+            System.err.println("   Plain Text: " + fallbackText);
+            System.err.println("   📧 END EMAIL CONTENT");
             // Don't throw exception - just log the failure
         }
     }
     
     public void notifyAdmin(String subject, String message, String fromEmail) {
+        String timestamp = java.time.LocalDateTime.now().toString();
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(this.fromEmail);
@@ -256,9 +266,21 @@ public class EmailService {
                 """, subject, fromEmail, message));
             
             mailSender.send(mailMessage);
+            System.out.println("✅ [" + timestamp + "] Admin notification sent successfully");
+            System.out.println("   Subject: Admin Notification: " + subject);
+            System.out.println("   From: " + fromEmail);
         } catch (Exception e) {
+            System.err.println("❌ [" + timestamp + "] Failed to send admin notification");
+            System.err.println("   Subject: " + subject);
+            System.err.println("   From: " + fromEmail);
+            System.err.println("   Error: " + e.getMessage());
+            System.err.println("   📧 ADMIN NOTIFICATION FOR MANUAL SENDING:");
+            System.err.println("   To: " + this.fromEmail);
+            System.err.println("   Subject: Admin Notification: " + subject);
+            System.err.println("   Message: " + message);
+            System.err.println("   Original From: " + fromEmail);
+            System.err.println("   📧 END ADMIN NOTIFICATION");
             // Don't throw exception for admin notifications to avoid breaking business logic
-            System.err.println("Failed to send admin notification: " + e.getMessage());
         }
     }
 }
