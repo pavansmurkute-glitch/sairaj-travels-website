@@ -50,28 +50,30 @@ services:
         value: org.hibernate.dialect.SQLServerDialect
       - key: SERVER_PORT
         value: 10000
-      # Email Configuration (Gmail with extended timeouts)
+      # Email Configuration (Gmail with alternative settings)
       - key: SPRING_MAIL_HOST
         value: smtp.gmail.com
       - key: SPRING_MAIL_PORT
-        value: 587
+        value: 465
       - key: SPRING_MAIL_USERNAME
         value: PavansMurkute@gmail.com
       - key: SPRING_MAIL_PASSWORD
         value: ykym zvwc gzxf bviw
       - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
         value: true
-      - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
+      - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE
         value: true
+      - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST
+        value: smtp.gmail.com
       - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_CONNECTION_TIMEOUT
-        value: 30000
+        value: 60000
       - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_TIMEOUT
-        value: 30000
+        value: 60000
       - key: SPRING_MAIL_PROPERTIES_MAIL_SMTP_WRITE_TIMEOUT
-        value: 30000
+        value: 60000
       # SendGrid Configuration (Primary email service)
       - key: SENDGRID_API_KEY
-        value: SG.YOUR_ACTUAL_API_KEY_HERE
+        value: ${SENDGRID_API_KEY}
       - key: SENDGRID_FROM_EMAIL
         value: PavansMurkute@gmail.com
       - key: SENDGRID_FROM_NAME
