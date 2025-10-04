@@ -17,25 +17,7 @@ public class VehicleCharges {
     @JoinColumn(name = "VehicleId")
     private Vehicle vehicle;
 
-    @Column(name = "ChargeType", length = 50, nullable = false)
-    private String chargeType;
-
-    @Column(name = "ChargeAmount", precision = 10, scale = 2, nullable = false)
-    private BigDecimal chargeAmount;
-
-    @Column(name = "IsMandatory")
-    private Boolean isMandatory;
-
-    @Column(name = "Description", length = 200)
-    private String description;
-
-    @Column(name = "CreatedAt")
-    private java.time.LocalDateTime createdAt;
-
-    @Column(name = "ParkingIncluded")
-    private Boolean parkingIncluded;
-
-    // Additional fields that are referenced in the code
+    // Only the columns that actually exist in the database
     @Column(name = "DriverAllowance", precision = 10, scale = 2)
     private BigDecimal driverAllowance;
 
@@ -47,6 +29,25 @@ public class VehicleCharges {
 
     @Column(name = "TollIncluded")
     private Boolean tollIncluded;
+
+    @Column(name = "ParkingIncluded")
+    private Boolean parkingIncluded;
+
+    // Fields that don't exist in database but are used in code - make them transient
+    @Transient
+    private String chargeType;
+
+    @Transient
+    private BigDecimal chargeAmount;
+
+    @Transient
+    private Boolean isMandatory;
+
+    @Transient
+    private String description;
+
+    @Transient
+    private java.time.LocalDateTime createdAt;
 
     // ✅ Constructors
     public VehicleCharges() {}
