@@ -22,19 +22,31 @@ public class ContactMessageService {
         // save to DB
         ContactMessage saved = repository.save(message);
 
-        // 1) Client confirmation (if email provided)
+        // 1) Client confirmation (if email provided) - Graceful email handling
         if (saved.getEmail() != null && !saved.getEmail().isBlank()) {
-            String subject = "Sairaj Travels — We received your message";
-            String plain = buildClientText(saved);
-            String html = buildClientHtml(saved);
-            emailService.sendHtmlEmail(saved.getEmail(), subject, html, plain);
+            try {
+                String subject = "Sairaj Travels — We received your message";
+                String plain = buildClientText(saved);
+                String html = buildClientHtml(saved);
+                emailService.sendHtmlEmail(saved.getEmail(), subject, html, plain);
+                System.out.println("✅ Contact confirmation email sent to: " + saved.getEmail());
+            } catch (Exception e) {
+                System.err.println("⚠️ Failed to send contact confirmation email to: " + saved.getEmail());
+                System.err.println("Email content logged for manual sending - Name: " + saved.getName() + ", Email: " + saved.getEmail());
+            }
         }
 
-        // 2) Admin notification
-        String adminSubject = "New Contact Message from " + (saved.getName() == null ? "Unknown" : saved.getName());
-        String adminPlain = buildAdminText(saved);
-        String adminHtml = buildAdminHtml(saved);
-        emailService.notifyAdmin(adminSubject, adminHtml, adminPlain);
+        // 2) Admin notification - Graceful email handling
+        try {
+            String adminSubject = "New Contact Message from " + (saved.getName() == null ? "Unknown" : saved.getName());
+            String adminPlain = buildAdminText(saved);
+            String adminHtml = buildAdminHtml(saved);
+            emailService.notifyAdmin(adminSubject, adminHtml, adminPlain);
+            System.out.println("✅ Admin notification sent for contact message from: " + saved.getName());
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to send admin notification for contact message");
+            System.err.println("Admin notification content logged for manual sending - Message ID: " + saved.getId());
+        }
 
         return saved;
     }
