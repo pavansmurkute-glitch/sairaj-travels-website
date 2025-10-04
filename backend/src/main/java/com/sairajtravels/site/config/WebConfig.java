@@ -12,7 +12,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // Static resource handling moved to StaticResourceConfig.java
-        // This class can be used for other web configurations if needed
+        // Serve static images from the resources/static/images directory
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
+        
+        // Also serve from the target/classes/static/images directory (for development)
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + Paths.get("target/classes/static/images/").toAbsolutePath().toString() + "/");
     }
 }
